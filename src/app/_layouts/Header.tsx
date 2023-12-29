@@ -1,4 +1,3 @@
-import { WalletMultiButton } from "@/app/_layouts/ConnectButton";
 import Image from "next/image";
 
 import logo from "@/../public/bonkfi_logo.png";
@@ -11,11 +10,12 @@ export default function Header() {
         <div className="w-16 h-16 pt-1 rounded-full bg-white">
           <Image src={logo} alt="Bonkfi Logo" />
         </div>
-        <div className="text-4xl text-white font-anton pl-4">BonkFi</div>
+        <div className="text-xl sm:text-4xl text-white font-anton pl-4">
+          BonkFi
+        </div>
       </div>
       <div className="navbar-end w-full">
         <Nav />
-        <WalletMultiButton />
       </div>
     </header>
   );
