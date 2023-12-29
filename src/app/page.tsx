@@ -2,7 +2,7 @@ import Image from "next/image";
 import logo from "@/../public/bonkfi_logo.png";
 export default function Home() {
   return (
-    <main className="flex min-h-[calc(100vh-80px)] flex-col items-center justify-between py-24 px-8 md:px-24">
+    <main className="flex min-h-[calc(100vh-80px)] flex-col items-center justify-between py-24 px-2 xs:px-8 md:px-24">
       <div className="border-2 border-primary rounded-2xl p-10 max-w-3xl">
         <div className="w-full relative flex flex-col-reverse md:flex-col items-center pb-6">
           <div className="w-full relative flex flex-col px-0 md:px-36 justify-center">
@@ -22,7 +22,7 @@ export default function Home() {
           finibus odio. Donec finibus arcu ac turpis accumsan rutrum. Etiam
           sapien tortor,
         </p>
-        <div className="justify-evenly flex md:flex-row flex-col items-center pt-6 gap-4">
+        <div className="justify-evenly flex flex-row flex-wrap items-center pt-6 gap-4">
           <div className="stats drop-shadow">
             <div className="stat bg-primary">
               <div className="stat-desc">BFi</div>

@@ -45,7 +45,7 @@ export default function Nav() {
           role="button"
           className="btn btn-secondary btn-circle"
         >
-          <IoMdMenu className="text-4xl" />
+          <IoMdMenu className="text-xl" />
         </div>
         <ul
           tabIndex={0}
