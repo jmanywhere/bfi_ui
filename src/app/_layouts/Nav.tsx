@@ -39,7 +39,7 @@ export default function Nav() {
       </nav>
       <WalletMultiButton />
 
-      <div className="dropdown dropdown-end">
+      <div className="dropdown dropdown-end md:hidden">
         <div
           tabIndex={0}
           role="button"
