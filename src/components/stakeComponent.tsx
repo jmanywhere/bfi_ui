@@ -2,35 +2,35 @@
 import Image from "next/image";
 import Logo from "@/../public/bonkfi_logo.png";
 import { useState, FC, useMemo, useCallback, useEffect } from "react";
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, Transaction } from "@solana/web3.js";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
-
-const ownerToCheck = new PublicKey(
-  "GZBZMCcCxrvrqGA2gydsSfxtnS9narbwMuRxogXrD3gh"
-);
-const tokenAddress = new PublicKey(
-  "Cx242qgZBKUn7LDgEDwWL4T1RHvrVgYuuYGTtB9vjkEy"
-);
+import { tokenMintProgram } from "@/data/programKeys";
+import { useStakeAction } from "@/hooks/useStakingProgram";
+import { BN } from "@coral-xyz/anchor";
 
 const StakeComponent = () => {
   const [inputValue, setInputValue] = useState("");
-  const [inputDays, setInputDays] = useState(0);
+  const [inputDays, setInputDays] = useState(1);
   const [currentSOLBalance, setCurrentSolBalance] = useState(0);
   const dropdownOptions = [60, 180, 360];
 
   const connection = useConnection();
+  const { publicKey } = useWallet();
+
+  const { action, loading, currentTx } = useStakeAction();
+
   const getBalance = useCallback(async () => {
-    if (!connection) return;
+    if (!connection || !publicKey) return;
     const tokenAccount = await getAssociatedTokenAddressSync(
-      tokenAddress,
-      ownerToCheck
+      tokenMintProgram,
+      publicKey
     );
     const bal = await connection.connection.getTokenAccountBalance(
       tokenAccount
     );
     setCurrentSolBalance(bal.value.uiAmount || 0);
-  }, [connection, setCurrentSolBalance]);
+  }, [connection, setCurrentSolBalance, publicKey]);
 
   useEffect(() => {
     if (!connection) return;
@@ -40,16 +40,6 @@ const StakeComponent = () => {
       clearInterval(interval);
     };
   }, [connection, getBalance]);
-
-  /* const transfer = useCallback(async () => {
-    let transaction = new Transaction().add(
-      SystemPrrogram.transfer({
-        fromPubKey: ownerToCheck,
-        toPubKey: tokenAddress,
-
-      })
-    )
-  }); */
 
   return (
     <section className="py-10 px-2 md:px-10  flex flex-col items-center">
@@ -128,19 +118,21 @@ const StakeComponent = () => {
             </button>
           </div>
         </div>
-        <div className="pb-5 lg:px-32">
+        <div className="pb-5 lg:px-32 flex flex-col items-center">
           <button
-            className="bg-primary text-accent rounded-xl py-3 font-anton text-3xl w-full mb-3"
+            className="btn btn-primary font-anton text-2xl text-accent w-full disabled:bg-gray-400/60"
+            disabled={loading || !inputValue}
             onClick={() => {
-              console.log({
-                inputValue,
-                inputDays,
-              });
+              const amount: BN = new BN(
+                (parseFloat(inputValue || "0") * 1e9).toString()
+              );
+              if (amount.lte(new BN(0))) return;
+              action(inputDays, amount);
             }}
           >
-            STAKE
+            {loading ? <span className="loading loading-spinner" /> : "STAKE"}
           </button>
-          <p className="text-primary font-poppins text-lg">
+          <p className="text-primary font-poppins text-lg pt-3">
             DISCLAIMER TEXT: what happens if you stake when lock has not ended
           </p>
         </div>
