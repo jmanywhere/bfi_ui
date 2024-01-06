@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/app/_layouts/Providers";
 import classNames from "classnames";
 import Header from "./_layouts/Header";
+import Footer from "./_layouts/Footer";
 
 const roboto_condensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -44,6 +45,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
