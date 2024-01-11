@@ -2,6 +2,7 @@ import Image from "next/image";
 import logo from "@/../public/bonkfi_logo.png";
 import sol_logo from "@/../public/solana icon.png";
 import Link from "next/link";
+import TokenStats from "@/components/TokenStats";
 export default function Home() {
   return (
     <main className="flex min-h-[calc(100vh-80px)] flex-col items-center justify-between py-24 px-2 xs:px-8 md:px-24 gap-6">
@@ -29,29 +30,7 @@ export default function Home() {
           <strong>Culture:</strong>&nbsp; A blend of DeFi&apos;s innovation and
           the vibrant meme culture.
         </p>
-        <div className="justify-evenly flex flex-row flex-wrap items-center pt-6 gap-4">
-          <div className="stats drop-shadow">
-            <div className="stat bg-primary">
-              <div className="stat-desc">BFi</div>
-              <div className="stat-value text-white">5M</div>
-              <div className="stat-title text-accent">Total Supply</div>
-            </div>
-          </div>
-          <div className="stats drop-shadow">
-            <div className="stat bg-primary">
-              <div className="stat-desc">BFi</div>
-              <div className="stat-value text-white">4M</div>
-              <div className="stat-title text-accent">Total Staked</div>
-            </div>
-          </div>
-          <div className="stats drop-shadow">
-            <div className="stat bg-primary">
-              <div className="stat-desc">BFi</div>
-              <div className="stat-value text-white">1.2345</div>
-              <div className="stat-title text-accent">Price</div>
-            </div>
-          </div>
-        </div>
+        <TokenStats />
       </div>
       <div className="border-2 border-primary rounded-2xl p-10 max-w-3xl">
         <h2 className="text-5xl font-anton pb-4 text-soft-blue">
@@ -72,10 +51,6 @@ export default function Home() {
           <strong className="text-base">Buy/Sell Taxes:</strong>
           {"\n"}
           Zero - Because fairness matters!
-          {"\n"}
-          <strong className="text-base">Wallet & Transaction Caps:</strong>
-          {"\n"}
-          3% max wallet and 1% max transaction to maintain balance.
           {"\n"}
         </p>
       </div>

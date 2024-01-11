@@ -1,5 +1,6 @@
 "use client";
 import { WalletMultiButton } from "@/app/_layouts/ConnectButton";
+import { tokenMintProgram } from "@/data/programKeys";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,7 +20,7 @@ export default function Nav() {
           Home
         </Link>
         <a
-          href="https://raydium.io/swap/?inputCurrency=sol&outputCurrency=4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R&fixed=in"
+          href={`https://raydium.io/swap/?inputCurrency=sol&outputCurrency=${tokenMintProgram}&fixed=in`}
           target="_blank"
           rel="noopener noreferrer"
         >

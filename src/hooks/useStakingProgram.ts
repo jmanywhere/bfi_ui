@@ -27,6 +27,35 @@ export default function useStakingProgram() {
     }, [connection, anchorWallet, setProgramAtom])
 }
 
+export function useGeneralData() {
+  const program = useAtomValue(programAtom);
+  const [tokenSupply, setTokenSupply] = useState<number | null>(null);
+  const [totalStaked, setTotalStaked] = useState<number | null>(null);
+
+  const fetchGeneralData = useCallback( async () => {
+    if(!program)
+      return;
+    // fetch token supply
+    const tokenSupply = await program.provider.connection.getTokenSupply(tokenMintProgram);
+    // fetch token balance of vault account
+    const vaultAccount = PublicKey.findProgramAddressSync([Buffer.from('vault')], program.programId)[0]
+    const vaultBalance = await program.provider.connection.getTokenAccountBalance(vaultAccount);
+    setTokenSupply(tokenSupply.value.uiAmount);
+    setTotalStaked(vaultBalance.value.uiAmount);
+  },[program, setTokenSupply, setTotalStaked])
+
+  useEffect( () => {
+    if(!tokenSupply)
+      fetchGeneralData();
+
+      const interval = setInterval( fetchGeneralData, 6000);
+      return () => clearInterval(interval);
+
+  }, [fetchGeneralData, tokenSupply])
+
+  return {tokenSupply, totalStaked}
+}
+
 export function useFetchPoolData () {
   const program = useAtomValue(programAtom);
   const { publicKey } = useWallet();
