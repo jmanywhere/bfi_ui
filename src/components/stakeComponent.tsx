@@ -44,8 +44,8 @@ const StakeComponent = () => {
   return (
     <section className="py-10 px-2 md:px-10  flex flex-col items-center">
       <div className="rounded-xl border-secondary border-4 px-5 lg:px-16 py-5 md:py-10 w-full max-w-[1440px]">
-        <div className="flex flex-col lg:flex-row items-center lg:items-start md:pb-8 lg:pb-3">
-          <div className="max-h-[175px] max-w-[198px]">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start md:pb-8 lg:pb-3 gap-4">
+          <div className="max-h-[100px] max-w-[100px]">
             <Image src={Logo} alt="logo" className="" />
           </div>
           <h2 className="text-soft-blue font-anton text-2xl py-5 text-center md:text-4xl lg:text-5xl">
@@ -132,8 +132,10 @@ const StakeComponent = () => {
           >
             {loading ? <span className="loading loading-spinner" /> : "STAKE"}
           </button>
-          <p className="text-primary font-poppins text-lg pt-3">
-            DISCLAIMER TEXT: what happens if you stake when lock has not ended
+          <p className="text-black/50 font-poppins text-sm pt-3">
+            DISCLAIMER: If you stake while your current position is still
+            ongoing. Your rewards will be locked and will be able to be claimed
+            until the new position is over.
           </p>
         </div>
       </div>
