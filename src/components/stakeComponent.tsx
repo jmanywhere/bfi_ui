@@ -124,9 +124,10 @@ const StakeComponent = () => {
             disabled={loading || !inputValue}
             onClick={() => {
               const amount: BN = new BN(
-                (parseFloat(inputValue || "0") * 1e9).toString()
+                (parseFloat(inputValue || "0") * 1e3).toString()
               );
               if (amount.lte(new BN(0))) return;
+              console.log({ inputDays, amount });
               action(inputDays, amount);
             }}
           >

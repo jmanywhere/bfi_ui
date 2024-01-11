@@ -1,4 +1,4 @@
 import { PublicKey } from '@solana/web3.js'
 
-export const stakingProgram = new PublicKey('BgaUuJPsfJEfJo3XYmrJGMxqSvVVwu6MmwQob8c3QgvW')
-export const tokenMintProgram = new PublicKey('Cx242qgZBKUn7LDgEDwWL4T1RHvrVgYuuYGTtB9vjkEy')
+export const stakingProgram = new PublicKey('3gbCKLUwbRTeGKP12jvPFDP8H3jWPVgAeitrMG92k4KH')
+export const tokenMintProgram = new PublicKey('u6EzDxvJEzMGDqmiXGng757TcXjQ8fxKQN8uHRRCrqC')

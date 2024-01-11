@@ -1,7 +1,7 @@
 'use client';
 
-import { useSetAtom, useAtomValue } from 'jotai'
-import { programAtom } from "@/data/atoms";
+import { useSetAtom, useAtomValue, useAtom } from 'jotai'
+import { PoolDataType, pools, programAtom } from "@/data/atoms";
 import { PublicKey, Transaction } from "@solana/web3.js";
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -25,6 +25,46 @@ export default function useStakingProgram() {
       const provider = new AnchorProvider(connection, anchorWallet, { commitment: "confirmed"} )
       setProgramAtom( new Program(StakingIDL, stakingKey, provider))
     }, [connection, anchorWallet, setProgramAtom])
+}
+
+export function useFetchPoolData () {
+  const program = useAtomValue(programAtom);
+  const { publicKey } = useWallet();
+  const [pd,setPoolData] = useAtom(pools);
+
+  const fetchPoolData = useCallback( async () => {
+    if(!program)
+      return;
+    // Fetch all accounts
+    const poolIdAccounts = await program.account.poolInfo.all();
+
+    const allUserPositions = await Promise.all( poolIdAccounts.map( (poolInfo, i) => {
+      if(!publicKey)
+        return null;
+
+      const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([i + 1])], program.programId)[0]
+      return program.account.stakingPosition.fetch(userPoolAccount).catch( () => null);
+    }));
+
+    const poolData = poolIdAccounts.map( (poolInfo, i) => {
+      
+      return {
+        poolInfo: poolInfo.account,
+        userPoolInfo: allUserPositions[i]
+      } as PoolDataType
+    })
+
+    setPoolData(poolData)
+  },[program, setPoolData, publicKey])
+
+  useEffect( () => {
+    if(!pd.length)
+      fetchPoolData();
+
+      const interval = setInterval( fetchPoolData, 6000);
+      return () => clearInterval(interval);
+
+  }, [fetchPoolData, pd])
 }
 
 export function useStakingPoolId(id: number) {
@@ -55,7 +95,7 @@ export function useStakingPoolId(id: number) {
     if(!poolData)
       fetchPoolData();
 
-      const interval = setInterval( fetchPoolData, 4000);
+      const interval = setInterval( fetchPoolData, 10000);
       return () => clearInterval(interval);
 
   }, [fetchPoolData, poolData])
@@ -74,7 +114,7 @@ export function useStakeAction(){
       return;
     setLoading(true);
 
-    const poolIdAccount = PublicKey.findProgramAddressSync( [ Buffer.from("pool"), new Uint8Array([1]) ], program.programId)[0]
+    const poolIdAccount = PublicKey.findProgramAddressSync( [ Buffer.from("pool"), new Uint8Array([id]) ], program.programId)[0]
     const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([id])], program.programId)[0]
     const userTokenAccount = getAssociatedTokenAddressSync(tokenMintProgram, publicKey);
     const vaultAccount = PublicKey.findProgramAddressSync([Buffer.from('vault')], program.programId)[0]

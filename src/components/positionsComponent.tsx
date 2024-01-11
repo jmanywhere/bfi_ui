@@ -7,18 +7,21 @@ import {
 import { differenceInSeconds } from "date-fns/differenceInSeconds";
 import { format } from "date-fns/format";
 import { formatDistanceStrict } from "date-fns/formatDistanceStrict";
+import { useAtomValue } from "jotai";
 import compact from "lodash/compact";
+import { pools } from "@/data/atoms";
 
 const PositionsComponent = () => {
-  const { data: pool1, refetch: rf1 } = useStakingPoolId(1);
-  const { data: pool2, refetch: rf2 } = useStakingPoolId(2);
-  const { data: pool3, refetch: rf3 } = useStakingPoolId(3);
+  const poolData = useAtomValue(pools);
+  const pool1 = poolData[0];
+  const pool2 = poolData[1];
+  const pool3 = poolData[2];
 
   const { claim, exit, compound, loading, currentTx } = usePoolExitActions();
   console.log({ pool1, pool2, pool3 });
-  const pools = [pool1, pool2, pool3];
+  const allPools = [pool1, pool2, pool3];
   const poolRows = compact(
-    pools.map((pool, index) => {
+    allPools.map((pool, index) => {
       if (!pool) return null;
       const { userPoolInfo, poolInfo } = pool;
       if (!userPoolInfo || !poolInfo || userPoolInfo.amount.isZero())
