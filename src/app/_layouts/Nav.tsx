@@ -1,6 +1,16 @@
 "use client";
-import { WalletMultiButton } from "@/app/_layouts/ConnectButton";
+import { BaseWalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { tokenMintProgram } from "@/data/programKeys";
+
+const LABELS = {
+  "change-wallet": "Change wallet",
+  connecting: "Connecting ...",
+  "copy-address": "Copy address",
+  copied: "Copied",
+  disconnect: "Disconnect",
+  "has-wallet": "Connect",
+  "no-wallet": "Connect",
+} as const;
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -38,8 +48,11 @@ export default function Nav() {
         </Link>
         <Link href="/#about">About</Link>
       </nav>
-      <div className=" bg-purple-900 rounded-2xl overflow-hidden mr-2 md:mr-0">
-        <WalletMultiButton />
+      <div className="mr-2 md:mr-0">
+        <BaseWalletMultiButton
+          labels={LABELS}
+          style={{ background: "white", color: "orange", borderRadius: "16px" }}
+        />
       </div>
 
       <div className="dropdown dropdown-end md:hidden">
