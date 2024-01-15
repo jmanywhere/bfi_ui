@@ -92,7 +92,7 @@ export default function Home() {
           unforeseen moments.
         </p>
         <div className="flex flex-row items-center pt-4 justify-center">
-          <Link href="/stake" className="btn btn-primary text-white btn-lg">
+          <Link href="/staking" className="btn btn-primary text-white btn-lg">
             Stake Now
           </Link>
         </div>
