@@ -76,11 +76,11 @@ export default function Nav() {
           <li>
             <Link
               className={
-                pathname === "/stake"
+                pathname === "/staking"
                   ? "text-accent underline underline-offset-4"
                   : ""
               }
-              href="/stake"
+              href="/staking"
             >
               Stake
             </Link>
