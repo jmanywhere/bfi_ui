@@ -28,11 +28,11 @@ export default function Nav() {
         </a>
         <Link
           className={
-            pathname === "/stake"
+            pathname === "/staking"
               ? "text-accent underline underline-offset-4"
               : ""
           }
-          href="/stake"
+          href="/staking"
         >
           Stake
         </Link>
