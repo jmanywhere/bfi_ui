@@ -9,12 +9,12 @@ const Footer = () => {
           >
             X/Twitter
           </a>
-          {/* <a
+          <a
             className="underline text-soft-blue uppercase font-poppins"
-            href="https://www.instagram.com/"
+            href="mailto:support@bonkfi.io"
           >
-            instagram
-          </a> */}
+            email
+          </a>
           <a
             className="underline text-soft-blue uppercase font-poppins"
             href="https://t.me/Bonk_Fi"
