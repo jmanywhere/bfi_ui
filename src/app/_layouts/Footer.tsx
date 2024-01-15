@@ -5,23 +5,23 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:flex md:justify-center md:break gap-5 md:gap-10 pb-10 flex-wrap">
           <a
             className="underline text-soft-blue uppercase font-poppins"
-            href="https://twitter.com/"
+            href="https://twitter.com/Bonk_Fi"
           >
             X/Twitter
           </a>
-          <a
+          {/* <a
             className="underline text-soft-blue uppercase font-poppins"
             href="https://www.instagram.com/"
           >
             instagram
-          </a>
+          </a> */}
           <a
             className="underline text-soft-blue uppercase font-poppins"
-            href="https://web.telegram.org/"
+            href="https://t.me/Bonk_Fi"
           >
             telegram
           </a>
-          <a
+          {/* <a
             className="underline text-soft-blue uppercase font-poppins"
             href="https://github.com//"
           >
@@ -56,7 +56,7 @@ const Footer = () => {
             href="https://www.coingecko.com/"
           >
             coingecko
-          </a>
+          </a> */}
         </div>
         <p className="text-black font-poppins font-medium">
           All Rights Reserved © 2024 Bonkfi
