@@ -7,7 +7,7 @@ export default function TokenStats() {
   const { tokenSupply, totalStaked } = useGeneralData();
 
   return (
-    <div className="justify-evenly flex flex-row flex-wrap items-center pt-6 gap-4">
+    <div className="justify-evenly flex flex-col sm:flex-row flex-wrap items-center pt-6 gap-4">
       <div className="stats drop-shadow">
         <div className="stat bg-primary">
           <div className="stat-desc">BFi</div>

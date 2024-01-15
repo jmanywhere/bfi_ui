@@ -38,7 +38,9 @@ export default function Nav() {
         </Link>
         <Link href="/#about">About</Link>
       </nav>
-      <WalletMultiButton />
+      <div className=" bg-purple-900 rounded-2xl overflow-hidden mr-2 md:mr-0">
+        <WalletMultiButton />
+      </div>
 
       <div className="dropdown dropdown-end md:hidden">
         <div
