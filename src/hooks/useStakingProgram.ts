@@ -1,7 +1,7 @@
 'use client';
 
 import { useSetAtom, useAtomValue, useAtom } from 'jotai'
-import { PoolDataType, pools, programAtom } from "@/data/atoms";
+import { PoolDataType, pools, programAtom, providerAtom } from "@/data/atoms";
 import { PublicKey, Transaction } from "@solana/web3.js";
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -15,6 +15,7 @@ import { UnwrapPromise } from '@/data/typeHelpers';
 export default function useStakingProgram() {
 
     const setProgramAtom = useSetAtom(programAtom)
+    const setProviderAtom = useSetAtom(providerAtom)
     const {connection} = useConnection();
     const anchorWallet = useAnchorWallet();
 
@@ -24,7 +25,8 @@ export default function useStakingProgram() {
 
       const provider = new AnchorProvider(connection, anchorWallet, { commitment: "confirmed"} )
       setProgramAtom( new Program(StakingIDL, stakingKey, provider))
-    }, [connection, anchorWallet, setProgramAtom])
+      setProviderAtom(provider);
+    }, [connection, anchorWallet, setProgramAtom, setProviderAtom])
 }
 
 export function useGeneralData() {

@@ -1,0 +1,10 @@
+import RevokeFreezeAuth from "@/components/RevokeFreezeAuth";
+
+export default function AdminPage() {
+  return (
+    <main className="flex min-h-[calc(100vh-80px)] flex-col items-center py-24 px-2 xs:px-8 md:px-24 gap-6">
+      <h1>Admin Page</h1>
+      <RevokeFreezeAuth />
+    </main>
+  );
+}
