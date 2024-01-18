@@ -13,7 +13,7 @@ const StakeComponent = () => {
   const [inputValue, setInputValue] = useState("");
   const [inputDays, setInputDays] = useState(1);
   const [currentSOLBalance, setCurrentSolBalance] = useState(0);
-  const dropdownOptions = [60, 180, 360];
+  const dropdownOptions = [2, 8, 16];
 
   const connection = useConnection();
   const { publicKey } = useWallet();
@@ -66,7 +66,7 @@ const StakeComponent = () => {
             value={inputDays}
           >
             {[...dropdownOptions].map((number, i) => (
-              <option key={`day_option_${i}`} className="w-full" value={i + 1}>
+              <option key={`day_option_${i}`} className="w-full" value={i + 4}>
                 {`${number} Days`}
               </option>
             ))}
