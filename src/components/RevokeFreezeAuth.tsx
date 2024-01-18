@@ -17,7 +17,6 @@ import { useAtomValue } from "jotai";
 import { useCallback, useState } from "react";
 
 export default function RevokeFreezeAuth() {
-  const { connection } = useConnection();
   const wallet = useWallet();
   useStakingProgram();
   const provider = useAtomValue(providerAtom);
