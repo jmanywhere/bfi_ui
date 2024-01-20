@@ -68,24 +68,24 @@ export default function Home() {
           </h3>
           <p className="font-poppins text-black whitespace-pre-wrap">
             <strong className="text-base">
-              Rocket Ride Tier (60-Day Lock):
+              Rocket Ride Tier (2-Day Lock):
             </strong>
             {"\n"}
-            Blast off with a 60% reward! For example, staking 100,000 BFi gets
-            you 60,000 BFi.
+            Blast off with a 25% reward! For example, staking 100,000 BFi gets
+            you 25,000 BFi.
             {"\n"}
             {"\n"}
             <strong className="text-base">
-              HODL Harbor Tier (180-Day Lock):
+              HODL Harbor Tier (8-Day Lock):
             </strong>
             {"\n"}
-            Anchor down for a 220% reward, a safe harbor for the HODLers.
+            Anchor down for a 125% reward, a safe harbor for the HODLers.
             {"\n"}
             {"\n"}
             <strong className="text-base">
-              Moon Mission Tier (360-Day Lock):
+              Moon Mission Tier (16-Day Lock):
             </strong>
-            {"\n"}Embark on a grand journey with a 600% reward, aiming for the
+            {"\n"}Embark on a grand journey with a 275% reward, aiming for the
             stars.
           </p>
           <h3 className="text-2xl font-anton pt-4 pb-2 text-secondary">
