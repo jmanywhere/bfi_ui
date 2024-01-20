@@ -51,7 +51,7 @@ export default function CreatePools() {
     const lockTime6 = 16 * 24 * 60 * 60;
     // Create 3 pools
     const create4 = await program.methods
-      .createPool(4, 50, new BN(lockTime4.toString()))
+      .createPool(6, 25, new BN(lockTime4.toString()))
       .accounts({
         signer: anchorWallet.publicKey,
         newPool: newPoolAccount4,
@@ -60,7 +60,7 @@ export default function CreatePools() {
       .transaction();
     create4.add(
       await program.methods
-        .createPool(5, 80, new BN(lockTime5.toString()))
+        .createPool(7, 125, new BN(lockTime5.toString()))
         .accounts({
           signer: anchorWallet.publicKey,
           newPool: newPoolAccount5,
@@ -70,7 +70,7 @@ export default function CreatePools() {
     );
     create4.add(
       await program.methods
-        .createPool(6, 160, new BN(lockTime6.toString()))
+        .createPool(8, 275, new BN(lockTime6.toString()))
         .accounts({
           signer: anchorWallet.publicKey,
           newPool: newPoolAccount6,
@@ -81,7 +81,7 @@ export default function CreatePools() {
     // Set 3 pools to inactive
     create4.add(
       await program.methods
-        .setPoolActiveStatus(1, false)
+        .setPoolActiveStatus(4, false)
         .accounts({
           signer: anchorWallet.publicKey,
           pool: newPoolAccount1,
@@ -91,7 +91,7 @@ export default function CreatePools() {
     );
     create4.add(
       await program.methods
-        .setPoolActiveStatus(2, false)
+        .setPoolActiveStatus(5, false)
         .accounts({
           signer: anchorWallet.publicKey,
           pool: newPoolAccount2,
@@ -101,7 +101,7 @@ export default function CreatePools() {
     );
     create4.add(
       await program.methods
-        .setPoolActiveStatus(3, false)
+        .setPoolActiveStatus(6, false)
         .accounts({
           signer: anchorWallet.publicKey,
           pool: newPoolAccount3,

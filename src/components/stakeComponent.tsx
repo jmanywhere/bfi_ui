@@ -66,7 +66,7 @@ const StakeComponent = () => {
             value={inputDays}
           >
             {[...dropdownOptions].map((number, i) => (
-              <option key={`day_option_${i}`} className="w-full" value={i + 4}>
+              <option key={`day_option_${i}`} className="w-full" value={i + 6}>
                 {`${number} Days`}
               </option>
             ))}
