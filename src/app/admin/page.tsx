@@ -9,6 +9,7 @@ export default function AdminPage() {
       <RevokeFreezeAuth />
       <CreatePools />
       <ChangePoolStatus />
+      <ClaimFees />
     </main>
   );
 }
