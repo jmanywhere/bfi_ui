@@ -66,8 +66,18 @@ export function useFetchPoolData () {
   const fetchPoolData = useCallback( async () => {
     if(!program)
       return;
+
+    const pool7 = PublicKey.findProgramAddressSync([Buffer.from('pool'), new Uint8Array([7])], program.programId)[0]
+    const pool8 = PublicKey.findProgramAddressSync([Buffer.from('pool'), new Uint8Array([8])], program.programId)[0]
+    const pool9 = PublicKey.findProgramAddressSync([Buffer.from('pool'), new Uint8Array([9])], program.programId)[0]
     // Fetch all accounts
-    const poolIdAccounts = await program.account.poolInfo.all();
+    const poolIdAccountsRaw = await program.account.poolInfo.all();
+
+    const poolIdAccounts = [
+      poolIdAccountsRaw.find( (x) => x.publicKey.toBase58() === pool7.toBase58()),
+      poolIdAccountsRaw.find( (x) => x.publicKey.toBase58() === pool8.toBase58()),
+      poolIdAccountsRaw.find( (x) => x.publicKey.toBase58() === pool9.toBase58()),
+    ]
 
     const allUserPositions = await Promise.all( poolIdAccounts.map( (poolInfo, i) => {
       if(!publicKey)
@@ -76,15 +86,18 @@ export function useFetchPoolData () {
       const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([i + 1])], program.programId)[0]
       return program.account.stakingPosition.fetch(userPoolAccount).catch( () => null);
     }));
-
+    console.log({allUserPositions, poolIdAccounts})
     const poolData = poolIdAccounts.map( (poolInfo, i) => {
-      
+      if(!poolInfo)
+        return {
+      poolInfo: null,
+      userPoolInfo: null,
+    } as PoolDataType; 
       return {
         poolInfo: poolInfo.account,
         userPoolInfo: allUserPositions[i]
       } as PoolDataType
     })
-
     setPoolData(poolData)
   },[program, setPoolData, publicKey])
 

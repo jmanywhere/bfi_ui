@@ -11,7 +11,7 @@ import { BN } from "@coral-xyz/anchor";
 
 const StakeComponent = () => {
   const [inputValue, setInputValue] = useState("");
-  const [inputDays, setInputDays] = useState(1);
+  const [inputDays, setInputDays] = useState(7);
   const [currentSOLBalance, setCurrentSolBalance] = useState(0);
   const dropdownOptions = [2, 8, 16];
 
@@ -66,7 +66,7 @@ const StakeComponent = () => {
             value={inputDays}
           >
             {[...dropdownOptions].map((number, i) => (
-              <option key={`day_option_${i}`} className="w-full" value={i + 6}>
+              <option key={`day_option_${i}`} className="w-full" value={i + 7}>
                 {`${number} Days`}
               </option>
             ))}
@@ -82,7 +82,7 @@ const StakeComponent = () => {
             value={inputValue}
             onChange={(e) => {
               if (isNaN(parseFloat(e.target.value))) setInputValue("");
-              else setInputValue(e.target.valueAsNumber.toString());
+              else setInputValue(e.target.valueAsNumber.toFixed(3));
             }}
             className="input w-full bg-transparent text-white text-5xl font-poppins text-center focus:outline-none focus:border-none placeholder:text-white/60"
           />
@@ -100,7 +100,7 @@ const StakeComponent = () => {
             <button
               className="border-r-2 border-accent px-3"
               onClick={() =>
-                setInputValue((currentSOLBalance * 0.25).toString())
+                setInputValue((currentSOLBalance * 0.25).toFixed(3))
               }
             >
               25%
@@ -108,12 +108,12 @@ const StakeComponent = () => {
             <button
               className="border-r-2 border-accent px-3"
               onClick={() =>
-                setInputValue((currentSOLBalance * 0.5).toString())
+                setInputValue((currentSOLBalance * 0.5).toFixed(3))
               }
             >
               50%
             </button>
-            <button onClick={() => setInputValue(currentSOLBalance.toString())}>
+            <button onClick={() => setInputValue(currentSOLBalance.toFixed(3))}>
               100%
             </button>
           </div>

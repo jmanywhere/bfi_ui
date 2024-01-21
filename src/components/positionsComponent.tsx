@@ -13,9 +13,9 @@ import { pools } from "@/data/atoms";
 
 const PositionsComponent = () => {
   const poolData = useAtomValue(pools);
-  const pool1 = poolData[6];
-  const pool2 = poolData[7];
-  const pool3 = poolData[8];
+  const pool1 = poolData[0];
+  const pool2 = poolData[1];
+  const pool3 = poolData[2];
 
   const { claim, exit, compound, loading, currentTx } = usePoolExitActions();
   console.log({ pool1, pool2, pool3 });
@@ -53,7 +53,7 @@ const PositionsComponent = () => {
                 <button
                   className="btn btn-outline btn-success"
                   disabled={diff > 0 || loading}
-                  onClick={() => claim(index + 6)}
+                  onClick={() => claim(index + 7)}
                 >
                   {loading ? (
                     <span className="loading loading-spinner" />
@@ -63,7 +63,7 @@ const PositionsComponent = () => {
                 </button>
                 <button
                   className="btn btn-outline btn-error"
-                  onClick={() => exit(index + 6)}
+                  onClick={() => exit(index + 7)}
                   disabled={loading}
                 >
                   {loading ? (

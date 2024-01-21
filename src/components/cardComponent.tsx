@@ -13,13 +13,13 @@ const CardComponent = () => {
   useFetchPoolData();
 
   const poolData = useAtomValue(pools);
-  const lockedAmount1 = poolData[6]?.userPoolInfo?.claimed
+  const lockedAmount1 = poolData[0]?.userPoolInfo?.claimed
     ? new BN("0")
     : poolData[0]?.userPoolInfo?.amount || new BN("0");
-  const lockedAmount2 = poolData[7]?.userPoolInfo?.claimed
+  const lockedAmount2 = poolData[1]?.userPoolInfo?.claimed
     ? new BN("0")
     : poolData[1]?.userPoolInfo?.amount || new BN("0");
-  const lockedAmount3 = poolData[8]?.userPoolInfo?.claimed
+  const lockedAmount3 = poolData[2]?.userPoolInfo?.claimed
     ? new BN("0")
     : poolData[2]?.userPoolInfo?.amount || new BN("0");
   const totalLocked: BN = lockedAmount1.add(lockedAmount2).add(lockedAmount3);
