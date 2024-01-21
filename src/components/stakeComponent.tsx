@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
 import Logo from "@/../public/bonkfi_logo.png";
-import { useState, FC, useMemo, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { PublicKey, Transaction } from "@solana/web3.js";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { tokenMintProgram } from "@/data/programKeys";
 import { useStakeAction } from "@/hooks/useStakingProgram";
