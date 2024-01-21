@@ -79,9 +79,10 @@ const StakeComponent = () => {
             type="number"
             placeholder="e.g. 1000"
             value={inputValue}
+            onFocus={(e) => e.target.select()}
             onChange={(e) => {
               if (isNaN(parseFloat(e.target.value))) setInputValue("");
-              else setInputValue(e.target.valueAsNumber.toFixed(3));
+              else setInputValue(e.target.valueAsNumber.toString());
             }}
             className="input w-full bg-transparent text-white text-5xl font-poppins text-center focus:outline-none focus:border-none placeholder:text-white/60"
           />
