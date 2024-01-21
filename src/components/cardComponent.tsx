@@ -27,15 +27,15 @@ const CardComponent = () => {
     <section className="py-10 px-2 md:px-10 flex flex-col items-center">
       <div className="bg-primary rounded-lg px-10 py-5 text-white font-bold font-roboto-condensed text-lg w-full max-w-[1440px]">
         <div className="border-b-[1px] border-soft-blue flex justify-between py-2 md:py-5">
-          <p>BFI Locked 2 Days (50%)</p>
+          <p>BFI Locked 2 Days (25%)</p>
           <p>{(parseFloat(lockedAmount1.toString()) / 1e3).toLocaleString()}</p>
         </div>
         <div className="border-b-[1px] border-soft-blue flex justify-between py-2 md:py-5">
-          <p>BFI Locked 8 Days (80%)</p>
+          <p>BFI Locked 8 Days (125%)</p>
           <p>{(parseFloat(lockedAmount2.toString()) / 1e3).toLocaleString()}</p>
         </div>
         <div className="border-b-[1px] border-soft-blue flex justify-between py-2 md:py-5">
-          <p>BFI Locked 16 Days (200%)</p>
+          <p>BFI Locked 16 Days (275%)</p>
           <p>{(parseFloat(lockedAmount3.toString()) / 1e3).toLocaleString()}</p>
         </div>
         <div className="border-b-[1px] border-soft-blue flex justify-between py-2 md:py-5">
