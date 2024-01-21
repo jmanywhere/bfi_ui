@@ -1,5 +1,6 @@
 import RevokeFreezeAuth from "@/components/RevokeFreezeAuth";
 import ChangePoolStatus from "@/components/admin/ChangePoolStatus";
+import ClaimFees from "@/components/admin/ClaimFees";
 import CreatePools from "@/components/admin/CreatePools";
 
 export default function AdminPage() {
