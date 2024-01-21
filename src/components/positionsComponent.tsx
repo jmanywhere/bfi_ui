@@ -38,10 +38,10 @@ const PositionsComponent = () => {
           <td>
             {formatDistanceStrict(0, poolInfo.lockTime.toNumber() * 1000)}
           </td>
-          <td>{(userPoolInfo.amount / 1e6).toLocaleString()}</td>
+          <td>{(userPoolInfo.amount / 1e3).toLocaleString()}</td>
           <td>
             {(
-              (diff < 0 ? earned : (earned * diff) / poolInfo.lockTime) / 1e6
+              (diff < 0 ? earned : (earned * diff) / poolInfo.lockTime) / 1e3
             ).toLocaleString()}
           </td>
           <td>{format(endTime, "yyyy-MM-dd HH:mm")}</td>
