@@ -36,7 +36,7 @@ export default function Nav() {
         >
           Swap
         </a>
-        <Link
+        {/* <Link
           className={
             pathname === "/staking"
               ? "text-accent underline underline-offset-4"
@@ -45,7 +45,7 @@ export default function Nav() {
           href="/staking"
         >
           Stake
-        </Link>
+        </Link> */}
         <Link href="/#about">About</Link>
       </nav>
       <div className="mr-2 md:mr-0">

@@ -99,8 +99,11 @@ export default function Home() {
             unforeseen moments.
           </p>
           <div className="flex flex-row items-center pt-4 justify-center">
-            <Link href="/staking" className="btn btn-primary text-white btn-lg">
-              Stake Now
+            <Link
+              href="/staking"
+              className="btn btn-ghost  btn-lg pointer-events-none "
+            >
+              Coming Soon
             </Link>
           </div>
         </div>
