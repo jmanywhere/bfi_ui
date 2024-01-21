@@ -9,14 +9,14 @@ import { format } from "date-fns/format";
 import { formatDistanceStrict } from "date-fns/formatDistanceStrict";
 import { useAtomValue } from "jotai";
 import compact from "lodash/compact";
-import { pools } from "@/data/atoms";
+import { offPools, pools } from "@/data/atoms";
 
 const PositionsComponent = () => {
   const poolData = useAtomValue(pools);
   const pool1 = poolData[0];
   const pool2 = poolData[1];
   const pool3 = poolData[2];
-
+  const exitPools = useAtomValue(offPools);
   const { claim, exit, compound, loading, currentTx } = usePoolExitActions();
   console.log({ pool1, pool2, pool3 });
   const allPools = [pool1, pool2, pool3];
@@ -79,6 +79,38 @@ const PositionsComponent = () => {
       );
     })
   );
+  const exitRows = compact(
+    exitPools.map((pool, index) => {
+      if (!pool) return null;
+      if (pool.amount.isZero()) return null;
+
+      return (
+        <tr
+          key={`table_item_${index}`}
+          className="text-center text-soft-blue font-roboto-condensed border-collapse border-secondary text-lg"
+        >
+          <td colSpan={2}>{(pool.amount / 1e3).toLocaleString()}</td>
+          <td className="flex flex-row gap-2 justify-center" colSpan={3}>
+            {pool.claimed ? (
+              <span className="text-success font-bold">CLAIMED</span>
+            ) : (
+              <button
+                className="btn btn-outline btn-error"
+                onClick={() => exit(index + 1)}
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="loading loading-spinner" />
+                ) : (
+                  "Exit"
+                )}
+              </button>
+            )}
+          </td>
+        </tr>
+      );
+    })
+  );
   return (
     <section className="flex flex-col items-center px-5 md:px-10 py-5">
       <div className="w-full max-w-[1440px] rounded-xl bg-off-white py-10 px-7">
@@ -105,6 +137,14 @@ const PositionsComponent = () => {
                     No Staked Positions
                   </td>
                 </tr>
+              )}
+              {exitRows.length > 0 && (
+                <>
+                  <tr className="bg-off-white text-primary font-roboto font-boold text-xl">
+                    <td colSpan={5}>Wrong Positions</td>
+                  </tr>
+                  {exitRows}
+                </>
               )}
             </tbody>
           </table>

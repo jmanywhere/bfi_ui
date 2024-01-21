@@ -1,7 +1,7 @@
 'use client';
 
 import { useSetAtom, useAtomValue, useAtom } from 'jotai'
-import { PoolDataType, pools, programAtom, providerAtom } from "@/data/atoms";
+import { PoolDataType, PoolPositionDataType, offPools, pools, programAtom, providerAtom } from "@/data/atoms";
 import { PublicKey, Transaction } from "@solana/web3.js";
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -62,6 +62,7 @@ export function useFetchPoolData () {
   const program = useAtomValue(programAtom);
   const { publicKey } = useWallet();
   const [pd,setPoolData] = useAtom(pools);
+  const setOffPools = useSetAtom(offPools)
 
   const fetchPoolData = useCallback( async () => {
     if(!program)
@@ -70,23 +71,39 @@ export function useFetchPoolData () {
     const pool7 = PublicKey.findProgramAddressSync([Buffer.from('pool'), new Uint8Array([7])], program.programId)[0]
     const pool8 = PublicKey.findProgramAddressSync([Buffer.from('pool'), new Uint8Array([8])], program.programId)[0]
     const pool9 = PublicKey.findProgramAddressSync([Buffer.from('pool'), new Uint8Array([9])], program.programId)[0]
+    const userPosition1 = publicKey ? PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([1])], program.programId)[0] : null
+    const userPosition2 = publicKey ? PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([2])], program.programId)[0] : null
+    const userPosition3 = publicKey ? PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([3])], program.programId)[0] : null
+    const userPosition4 = publicKey ? PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([4])], program.programId)[0] : null
+    const userPosition5 = publicKey ? PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([5])], program.programId)[0] : null
+    const userPosition6 = publicKey ? PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([6])], program.programId)[0] : null
+    const userPosition7 = publicKey ? PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([7])], program.programId)[0] : null
+    const userPosition8 = publicKey ? PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([8])], program.programId)[0] : null
+    const userPosition9 = publicKey ? PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([9])], program.programId)[0] : null
     // Fetch all accounts
     const poolIdAccountsRaw = await program.account.poolInfo.all();
-
+    const allPositions = await program.account.stakingPosition.all()
+    console.log({allPositions})
     const poolIdAccounts = [
       poolIdAccountsRaw.find( (x) => x.publicKey.toBase58() === pool7.toBase58()),
       poolIdAccountsRaw.find( (x) => x.publicKey.toBase58() === pool8.toBase58()),
       poolIdAccountsRaw.find( (x) => x.publicKey.toBase58() === pool9.toBase58()),
     ]
+    const allUserPositions = [
+      allPositions.find( (x) => x.publicKey.toBase58() === userPosition7?.toBase58()),
+      allPositions.find( (x) => x.publicKey.toBase58() === userPosition8?.toBase58()),
+      allPositions.find( (x) => x.publicKey.toBase58() === userPosition9?.toBase58()),
+    ]
 
-    const allUserPositions = await Promise.all( poolIdAccounts.map( (poolInfo, i) => {
-      if(!publicKey)
-        return null;
-
-      const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([i + 7])], program.programId)[0]
-      return program.account.stakingPosition.fetch(userPoolAccount).catch( () => null);
-    }));
-    console.log({allUserPositions, poolIdAccounts})
+    const offPositions = [
+      allPositions.find( (x) => x.publicKey.toBase58() === userPosition1?.toBase58())?.account,
+      allPositions.find( (x) => x.publicKey.toBase58() === userPosition2?.toBase58())?.account,
+      allPositions.find( (x) => x.publicKey.toBase58() === userPosition3?.toBase58())?.account,
+      allPositions.find( (x) => x.publicKey.toBase58() === userPosition4?.toBase58())?.account,
+      allPositions.find( (x) => x.publicKey.toBase58() === userPosition5?.toBase58())?.account,
+      allPositions.find( (x) => x.publicKey.toBase58() === userPosition6?.toBase58())?.account,
+    ] as PoolPositionDataType[]
+    console.log({allUserPositions, poolIdAccounts, allPositions})
     const poolData = poolIdAccounts.map( (poolInfo, i) => {
       if(!poolInfo)
         return {
@@ -95,10 +112,12 @@ export function useFetchPoolData () {
     } as PoolDataType; 
       return {
         poolInfo: poolInfo.account,
-        userPoolInfo: allUserPositions[i]
+        userPoolInfo: allUserPositions[i]?.account
       } as PoolDataType
     })
     setPoolData(poolData)
+    setOffPools(offPositions)
+    
   },[program, setPoolData, publicKey])
 
   useEffect( () => {

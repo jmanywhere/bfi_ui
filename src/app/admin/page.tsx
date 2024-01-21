@@ -1,4 +1,5 @@
 import RevokeFreezeAuth from "@/components/RevokeFreezeAuth";
+import ChangePoolStatus from "@/components/admin/ChangePoolStatus";
 import CreatePools from "@/components/admin/CreatePools";
 
 export default function AdminPage() {
@@ -7,6 +8,7 @@ export default function AdminPage() {
       <h1>Admin Page</h1>
       <RevokeFreezeAuth />
       <CreatePools />
+      <ChangePoolStatus />
     </main>
   );
 }
