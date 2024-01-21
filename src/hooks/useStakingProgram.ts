@@ -83,7 +83,7 @@ export function useFetchPoolData () {
       if(!publicKey)
         return null;
 
-      const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([i + 1])], program.programId)[0]
+      const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([i + 7])], program.programId)[0]
       return program.account.stakingPosition.fetch(userPoolAccount).catch( () => null);
     }));
     console.log({allUserPositions, poolIdAccounts})
