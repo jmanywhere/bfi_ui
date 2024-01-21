@@ -313,6 +313,11 @@ export type BfiStaking = {
           "isSigner": false
         },
         {
+          "name": "ownerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "status",
           "isMut": true,
           "isSigner": false
@@ -355,6 +360,76 @@ export type BfiStaking = {
         }
       ],
       "args": []
+    },
+    {
+      "name": "setPoolLockTime",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolId",
+          "type": "u8"
+        },
+        {
+          "name": "newLockTime",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "setPoolApr",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolId",
+          "type": "u8"
+        },
+        {
+          "name": "basisPoints",
+          "type": "u32"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -800,6 +875,11 @@ export const IDL: BfiStaking = {
           "isSigner": false
         },
         {
+          "name": "ownerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "status",
           "isMut": true,
           "isSigner": false
@@ -842,6 +922,76 @@ export const IDL: BfiStaking = {
         }
       ],
       "args": []
+    },
+    {
+      "name": "setPoolLockTime",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolId",
+          "type": "u8"
+        },
+        {
+          "name": "newLockTime",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "setPoolApr",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolId",
+          "type": "u8"
+        },
+        {
+          "name": "basisPoints",
+          "type": "u32"
+        }
+      ]
     }
   ],
   "accounts": [
