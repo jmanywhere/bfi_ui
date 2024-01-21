@@ -15,29 +15,30 @@ export default function CreatePools() {
 
   const createNewPools = async () => {
     if (!program || !anchorWallet) return;
+    if (!provider) return setLoading(false);
 
     let [newPoolAccount1] = PublicKey.findProgramAddressSync(
-      [Buffer.from("pool"), new Uint8Array([1])],
-      program.programId
-    );
-    let [newPoolAccount2] = PublicKey.findProgramAddressSync(
-      [Buffer.from("pool"), new Uint8Array([2])],
-      program.programId
-    );
-    let [newPoolAccount3] = PublicKey.findProgramAddressSync(
-      [Buffer.from("pool"), new Uint8Array([3])],
-      program.programId
-    );
-    let [newPoolAccount4] = PublicKey.findProgramAddressSync(
       [Buffer.from("pool"), new Uint8Array([4])],
       program.programId
     );
-    let [newPoolAccount5] = PublicKey.findProgramAddressSync(
+    let [newPoolAccount2] = PublicKey.findProgramAddressSync(
       [Buffer.from("pool"), new Uint8Array([5])],
       program.programId
     );
-    let [newPoolAccount6] = PublicKey.findProgramAddressSync(
+    let [newPoolAccount3] = PublicKey.findProgramAddressSync(
       [Buffer.from("pool"), new Uint8Array([6])],
+      program.programId
+    );
+    let [newPoolAccount4] = PublicKey.findProgramAddressSync(
+      [Buffer.from("pool"), new Uint8Array([7])],
+      program.programId
+    );
+    let [newPoolAccount5] = PublicKey.findProgramAddressSync(
+      [Buffer.from("pool"), new Uint8Array([8])],
+      program.programId
+    );
+    let [newPoolAccount6] = PublicKey.findProgramAddressSync(
+      [Buffer.from("pool"), new Uint8Array([9])],
       program.programId
     );
     let [statusAccount] = PublicKey.findProgramAddressSync(
@@ -109,7 +110,6 @@ export default function CreatePools() {
         })
         .instruction()
     );
-    if (!provider) return setLoading(false);
 
     await provider
       .sendAndConfirm(create4)
