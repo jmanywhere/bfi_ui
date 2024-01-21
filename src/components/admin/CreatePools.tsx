@@ -52,7 +52,7 @@ export default function CreatePools() {
     const lockTime6 = 16 * 24 * 60 * 60;
     // Create 3 pools
     const create4 = await program.methods
-      .createPool(6, 25, new BN(lockTime4.toString()))
+      .createPool(7, 25, new BN(lockTime4.toString()))
       .accounts({
         signer: anchorWallet.publicKey,
         newPool: newPoolAccount4,
@@ -61,7 +61,7 @@ export default function CreatePools() {
       .transaction();
     create4.add(
       await program.methods
-        .createPool(7, 125, new BN(lockTime5.toString()))
+        .createPool(8, 125, new BN(lockTime5.toString()))
         .accounts({
           signer: anchorWallet.publicKey,
           newPool: newPoolAccount5,
@@ -71,7 +71,7 @@ export default function CreatePools() {
     );
     create4.add(
       await program.methods
-        .createPool(8, 275, new BN(lockTime6.toString()))
+        .createPool(9, 275, new BN(lockTime6.toString()))
         .accounts({
           signer: anchorWallet.publicKey,
           newPool: newPoolAccount6,
