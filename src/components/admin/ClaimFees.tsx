@@ -40,7 +40,7 @@ export default function ClaimExitFees() {
     feesAvailable();
   }, [feesAvailable]);
 
-  const claimFees = async () => {
+  const claimFees = useCallback(async () => {
     if (!program || !anchorWallet || !provider) return;
 
     setLoading(true);
@@ -67,31 +67,40 @@ export default function ClaimExitFees() {
       })
       .transaction();
 
-    await provider.sendAndConfirm(tx).finally(() => setLoading(false));
-  };
-  const waiveFee = async (waive: boolean) => {
-    if (!program || !anchorWallet || !provider) return;
+    await provider.sendAndConfirm(tx).finally(() => {
+      feesAvailable();
+      setLoading(false);
+    });
+  }, [program, anchorWallet, provider, feesAvailable]);
+  const waiveFee = useCallback(
+    async (waive: boolean) => {
+      if (!program || !anchorWallet || !provider) return;
 
-    setLoading(true);
-    const statusAccount = PublicKey.findProgramAddressSync(
-      [Buffer.from("status")],
-      program.programId
-    )[0];
-    const earlyAccount = PublicKey.findProgramAddressSync(
-      [Buffer.from("early")],
-      program.programId
-    )[0];
-    const tx = await program.methods
-      .setWaiveFee(waive)
-      .accounts({
-        signer: anchorWallet.publicKey,
-        earlyFlag: earlyAccount,
-        status: statusAccount,
-      })
-      .transaction();
+      setLoading(true);
+      const statusAccount = PublicKey.findProgramAddressSync(
+        [Buffer.from("status")],
+        program.programId
+      )[0];
+      const earlyAccount = PublicKey.findProgramAddressSync(
+        [Buffer.from("early")],
+        program.programId
+      )[0];
+      const tx = await program.methods
+        .setWaiveFee(waive)
+        .accounts({
+          signer: anchorWallet.publicKey,
+          earlyFlag: earlyAccount,
+          status: statusAccount,
+        })
+        .transaction();
 
-    await provider.sendAndConfirm(tx).finally(() => setLoading(false));
-  };
+      await provider.sendAndConfirm(tx).finally(() => {
+        feesAvailable();
+        setLoading(false);
+      });
+    },
+    [program, anchorWallet, provider, feesAvailable]
+  );
 
   return (
     <>
