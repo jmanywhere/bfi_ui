@@ -213,7 +213,7 @@ export function usePoolExitActions(){
       return;
     setLoading(true);
 
-    const poolIdAccount = PublicKey.findProgramAddressSync( [ Buffer.from("pool"), new Uint8Array([1]) ], program.programId)[0]
+    const poolIdAccount = PublicKey.findProgramAddressSync( [ Buffer.from("pool"), new Uint8Array([id]) ], program.programId)[0]
     const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([id])], program.programId)[0]
     const userTokenAccount = getAssociatedTokenAddressSync(tokenMintProgram, publicKey);
     const vaultAccount = PublicKey.findProgramAddressSync([Buffer.from('vault')], program.programId)[0]
@@ -238,8 +238,8 @@ export function usePoolExitActions(){
     if(!program || !publicKey)
       return;
     setLoading(true);
-
-    const poolIdAccount = PublicKey.findProgramAddressSync( [ Buffer.from("pool"), new Uint8Array([1]) ], program.programId)[0]
+    
+    const poolIdAccount = PublicKey.findProgramAddressSync( [ Buffer.from("pool"), new Uint8Array([id]) ], program.programId)[0]
     const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([id])], program.programId)[0]
     const userTokenAccount = getAssociatedTokenAddressSync(tokenMintProgram, publicKey);
     const vaultAccount = PublicKey.findProgramAddressSync([Buffer.from('vault')], program.programId)[0]
@@ -265,7 +265,7 @@ export function usePoolExitActions(){
       return;
     setLoading(true);
 
-    const poolIdAccount = PublicKey.findProgramAddressSync( [ Buffer.from("pool"), new Uint8Array([1]) ], program.programId)[0]
+    const poolIdAccount = PublicKey.findProgramAddressSync( [ Buffer.from("pool"), new Uint8Array([id]) ], program.programId)[0]
     const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([id])], program.programId)[0]
     const userTokenAccount = getAssociatedTokenAddressSync(tokenMintProgram, publicKey);
     const vaultAccount = PublicKey.findProgramAddressSync([Buffer.from('vault')], program.programId)[0]
