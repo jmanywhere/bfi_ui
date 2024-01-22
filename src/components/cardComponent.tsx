@@ -1,10 +1,7 @@
 "use client";
 
 import { pools } from "@/data/atoms";
-import useStakingProgram, {
-  useFetchPoolData,
-  useStakingPoolId,
-} from "@/hooks/useStakingProgram";
+import useStakingProgram, { useFetchPoolData } from "@/hooks/useStakingProgram";
 import { BN } from "@coral-xyz/anchor";
 import { useAtomValue } from "jotai";
 

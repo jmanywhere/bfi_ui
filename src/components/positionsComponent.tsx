@@ -1,24 +1,29 @@
 "use client";
 
-import {
-  usePoolExitActions,
-  useStakingPoolId,
-} from "@/hooks/useStakingProgram";
+import { usePoolExitActions } from "@/hooks/useStakingProgram";
 import { differenceInSeconds } from "date-fns/differenceInSeconds";
 import { format } from "date-fns/format";
 import { formatDistanceStrict } from "date-fns/formatDistanceStrict";
 import { useAtomValue } from "jotai";
 import compact from "lodash/compact";
 import { offPools, pools } from "@/data/atoms";
+import { differenceInDays } from "date-fns/differenceInDays";
+import { useEffect, useState } from "react";
 
 const PositionsComponent = () => {
+  const [dateCheck, setDateCheck] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => setDateCheck(new Date()), 1000);
+    return () => clearInterval(interval);
+  });
+
   const poolData = useAtomValue(pools);
   const pool1 = poolData[0];
   const pool2 = poolData[1];
   const pool3 = poolData[2];
   const exitPools = useAtomValue(offPools);
-  const { claim, exit, compound, loading, currentTx } = usePoolExitActions();
-  console.log({ pool1, pool2, pool3 });
+  const { claim, exit, compound, loading } = usePoolExitActions();
   const allPools = [pool1, pool2, pool3];
   const poolRows = compact(
     allPools.map((pool, index) => {
@@ -28,15 +33,21 @@ const PositionsComponent = () => {
         return null;
       const lockTime = poolInfo.lockTime.toNumber();
       const endTime = (userPoolInfo.startTime.toNumber() + lockTime) * 1000;
-      const diff = differenceInSeconds(endTime, new Date()) / 1000;
+      const diff = differenceInSeconds(endTime, dateCheck) / 1000;
       const earned = (userPoolInfo.amount * poolInfo.basisPoints) / 100;
       return (
         <tr
           key={`table_item_${index}`}
           className="text-center text-soft-blue font-roboto-condensed border-collapse border-secondary text-lg"
         >
-          <td>
+          <td className="whitespace-pre-wrap">
             {formatDistanceStrict(0, poolInfo.lockTime.toNumber() * 1000)}
+            {"\n"}
+            {Math.abs(
+              (poolInfo.basisPoints * 365) /
+                differenceInDays(0, poolInfo.lockTime.toNumber() * 1000)
+            ).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            % APR
           </td>
           <td>{(userPoolInfo.amount / 1e3).toLocaleString()}</td>
           <td>
@@ -50,17 +61,19 @@ const PositionsComponent = () => {
               <span className="text-success font-bold">CLAIMED</span>
             ) : (
               <>
-                <button
-                  className="btn btn-outline btn-success"
-                  disabled={diff > 0 || loading}
-                  onClick={() => claim(index + 7)}
-                >
-                  {loading ? (
-                    <span className="loading loading-spinner" />
-                  ) : (
-                    "Claim"
-                  )}
-                </button>
+                {
+                  <button
+                    className="btn btn-outline btn-success"
+                    disabled={diff > 0 || loading}
+                    onClick={() => claim(index + 7)}
+                  >
+                    {loading ? (
+                      <span className="loading loading-spinner" />
+                    ) : (
+                      "Claim"
+                    )}
+                  </button>
+                }
                 <button
                   className="btn btn-outline btn-error"
                   onClick={() => exit(index + 7)}

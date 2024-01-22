@@ -34,10 +34,10 @@ const StakeComponent = () => {
   useEffect(() => {
     if (!connection) return;
     getBalance();
-    const interval = setInterval(getBalance, 2000);
-    return () => {
-      clearInterval(interval);
-    };
+    // const interval = setInterval(getBalance, 2000);
+    // return () => {
+    //   clearInterval(interval);
+    // };
   }, [connection, getBalance]);
 
   return (

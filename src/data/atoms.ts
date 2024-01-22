@@ -14,3 +14,5 @@ export type PoolDataType = {
 };
 export const pools = atom<Array<PoolDataType>>([])
 export const offPools = atom<Array<PoolPositionDataType>>([])
+
+export const poolFetchAtom = atom<{getData: (()=> Promise<void>) | null}>({ getData: null})

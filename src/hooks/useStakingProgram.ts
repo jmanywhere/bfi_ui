@@ -1,8 +1,8 @@
 'use client';
 
 import { useSetAtom, useAtomValue, useAtom } from 'jotai'
-import { PoolDataType, PoolPositionDataType, offPools, pools, programAtom, providerAtom } from "@/data/atoms";
-import { PublicKey, Transaction } from "@solana/web3.js";
+import { PoolDataType, PoolPositionDataType, offPools, poolFetchAtom, pools, programAtom, providerAtom } from "@/data/atoms";
+import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Program, AnchorProvider } from '@coral-xyz/anchor'
@@ -35,17 +35,22 @@ export function useGeneralData() {
   const [totalStaked, setTotalStaked] = useState<number | null>(null);
   const [price, setPrice] = useState<number | null>(null);
 
-  const fetchGeneralData = useCallback( async () => {
+  const fetchTotalSupply = useCallback( async () => {
     if(!program)
       return;
     // fetch token supply
     const tokenSupply = await program.provider.connection.getTokenSupply(tokenMintProgram);
+    setTokenSupply(tokenSupply.value.uiAmount);
+  },[setTokenSupply, program]);
+
+  const fetchGeneralData = useCallback( async () => {
+    if(!program)
+      return;
     // fetch token balance of vault account
     const vaultAccount = PublicKey.findProgramAddressSync([Buffer.from('vault')], program.programId)[0]
     const vaultBalance = await program.provider.connection.getTokenAccountBalance(vaultAccount);
-    setTokenSupply(tokenSupply.value.uiAmount);
     setTotalStaked(vaultBalance.value.uiAmount);
-  },[program, setTokenSupply, setTotalStaked])
+  },[program, setTotalStaked])
 
   const fetchTokenPrice = useCallback( async () => {
 
@@ -56,14 +61,14 @@ export function useGeneralData() {
     if(!dexScreenerData)
       return;
     const price = dexScreenerData.pairs[0].priceUsd;
-    setPrice(price);
+    setPrice(parseFloat(price));
   },[setPrice]);
 
   useEffect( () => {
     if(!tokenSupply)
       fetchGeneralData();
 
-      const interval = setInterval( fetchGeneralData, 6000);
+      const interval = setInterval( fetchGeneralData, 15000);
       return () => clearInterval(interval);
 
   }, [fetchGeneralData, tokenSupply])
@@ -76,6 +81,12 @@ export function useGeneralData() {
       return () => clearInterval(interval);
   },[fetchTokenPrice, price])
 
+  useEffect( () => {
+    if(!tokenSupply)
+      fetchTotalSupply();
+
+  },[tokenSupply, fetchTotalSupply])
+
   return {tokenSupply, totalStaked, price}
 }
 
@@ -84,7 +95,7 @@ export function useFetchPoolData () {
   const { publicKey } = useWallet();
   const [pd,setPoolData] = useAtom(pools);
   const setOffPools = useSetAtom(offPools)
-
+  const setRefetch = useSetAtom(poolFetchAtom)
   const fetchPoolData = useCallback( async () => {
     if(!program)
       return;
@@ -138,60 +149,26 @@ export function useFetchPoolData () {
     })
     setPoolData(poolData)
     setOffPools(offPositions)
-    
-  },[program, setPoolData, publicKey])
 
+    
+  },[program, setPoolData, publicKey, setOffPools])
+  
   useEffect( () => {
     if(!pd.length)
-      fetchPoolData();
+    fetchPoolData();
 
-      const interval = setInterval( fetchPoolData, 6000);
-      return () => clearInterval(interval);
+    setRefetch({getData: fetchPoolData})
+  }, [fetchPoolData, pd, setRefetch])
 
-  }, [fetchPoolData, pd])
-}
-
-export function useStakingPoolId(id: number) {
-  const program = useAtomValue(programAtom);
-  const { publicKey } = useWallet();
-
-
-  const [poolData, setPoolData] = useState<{
-    poolInfo: UnwrapPromise<ReturnType<Program<BfiStaking>['account']['poolInfo']['fetch']>> | null, 
-    userPoolInfo: UnwrapPromise<ReturnType<Program<BfiStaking>['account']['stakingPosition']['fetch']>> | null
-  } | null>
-  (null);
-
-  const fetchPoolData = useCallback( async () => {
-    if(!program || !publicKey)
-      return;
-    // Fetch all accounts
-    const poolIdAccount = PublicKey.findProgramAddressSync([Buffer.from('pool'), new Uint8Array([id])], program.programId)[0]
-    const userPoolAccount = PublicKey.findProgramAddressSync([publicKey.toBuffer(), new Uint8Array([id])], program.programId)[0]
-
-    const poolInfo = await program.account.poolInfo.fetch(poolIdAccount).catch( () => null);
-    const userPoolInfo = await program.account.stakingPosition.fetch(userPoolAccount).catch( () => null);
-
-    setPoolData({poolInfo, userPoolInfo})
-  },[id, program, setPoolData, publicKey])
-
-  useEffect( () => {
-    if(!poolData)
-      fetchPoolData();
-
-      const interval = setInterval( fetchPoolData, 10000);
-      return () => clearInterval(interval);
-
-  }, [fetchPoolData, poolData])
-
-  return {data: poolData, refetch: fetchPoolData}
+  return {refetch: fetchPoolData};
 }
 
 export function useStakeAction(){
   const program = useAtomValue(programAtom);
   const { publicKey } = useWallet();
   const [loading, setLoading] = useState(false);
-  const [currentTx, setCurrentTx] = useState<string | null>(null);
+
+  const refetchCallback = useAtomValue(poolFetchAtom).getData;
 
   const action = useCallback( async(id: number, amount: BN) => {
     if(!program || !publicKey)
@@ -213,13 +190,15 @@ export function useStakeAction(){
       status: statusAccount,
       mint: tokenMintProgram,
     }).rpc().finally( () => setLoading(false));
+    console.log({tx})
+    setTimeout( async() => {
+      refetchCallback?.();
+    }
+    , 2000)
 
-    setCurrentTx(tx);
-    setLoading(false);
+  },[setLoading, program, publicKey, refetchCallback])
 
-  },[setLoading, program, setCurrentTx, publicKey])
-
-  return {action, loading, currentTx}
+  return {action, loading}
 }
 
 export function usePoolExitActions(){
@@ -228,6 +207,7 @@ export function usePoolExitActions(){
   const { connection } = useConnection();
   const [loading, setLoading] = useState(false);
   const [currentTx, setCurrentTx] = useState<string | null>(null);
+  const refetchCallback = useAtomValue(poolFetchAtom).getData;
 
   const claim = useCallback( async(id: number) => {
     if(!program || !publicKey)
@@ -248,12 +228,13 @@ export function usePoolExitActions(){
       tokenVault: vaultAccount,
       status: statusAccount,
       mint: tokenMintProgram,
-    }).rpc().finally( () => setLoading(false));
-
-    setCurrentTx(tx);
-    setLoading(false);
-
-  },[setLoading, program, setCurrentTx, publicKey])
+    }).rpc()
+    console.log({tx})
+    setTimeout( async() => {
+      refetchCallback?.();
+    }
+    , 2000)
+  },[setLoading, program, publicKey, refetchCallback])
 
   const exit = useCallback( async(id: number) => {
     if(!program || !publicKey)
@@ -274,12 +255,16 @@ export function usePoolExitActions(){
       tokenVault: vaultAccount,
       status: statusAccount,
       mint: tokenMintProgram,
-    }).rpc().finally( () => setLoading(false));
+    }).rpc()
 
-    setCurrentTx(tx);
-    setLoading(false);
+    console.log({tx})
+    setTimeout( async() => {
+      refetchCallback?.();
+    }
+    , 2000)
 
-  },[setLoading, program, setCurrentTx, publicKey])
+
+  },[setLoading, program, publicKey, refetchCallback])
 
   const compound = useCallback( async(id: number, compoundAmount: BN) => {
     if(!program || !publicKey)
@@ -323,4 +308,12 @@ export function usePoolExitActions(){
 
   return {claim, exit, compound, loading, currentTx}
 
+}
+
+export async function waitForTransaction(connection: Connection, tx: string){
+  const latestblock = await connection.getLatestBlockhash("confirmed");
+  await connection.confirmTransaction({
+    ...latestblock,
+    signature: tx,
+  })
 }
