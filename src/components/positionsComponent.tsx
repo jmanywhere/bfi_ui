@@ -136,7 +136,7 @@ const PositionsComponent = () => {
           <table className="table  table-pin-rows table-pin-cols">
             <thead>
               <tr className="bg-off-white text-primary font-roboto font-boold text-xl">
-                <td>Lock Type</td>
+                <td>Stake Type</td>
                 <td>BFI Staked</td>
                 <td>BFI Earned</td>
                 <td>Unlock Time</td>
