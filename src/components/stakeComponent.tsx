@@ -7,7 +7,7 @@ import { getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { tokenMintProgram } from "@/data/programKeys";
 import { useStakeAction } from "@/hooks/useStakingProgram";
 import { BN } from "@coral-xyz/anchor";
-
+import { IoReload } from "react-icons/io5";
 const StakeComponent = () => {
   const [inputValue, setInputValue] = useState("");
   const [inputDays, setInputDays] = useState(7);
@@ -17,7 +17,7 @@ const StakeComponent = () => {
   const connection = useConnection();
   const { publicKey } = useWallet();
 
-  const { action, loading, currentTx } = useStakeAction();
+  const { action, loading } = useStakeAction();
 
   const getBalance = useCallback(async () => {
     if (!connection || !publicKey) return;
@@ -34,10 +34,10 @@ const StakeComponent = () => {
   useEffect(() => {
     if (!connection) return;
     getBalance();
-    // const interval = setInterval(getBalance, 2000);
-    // return () => {
-    //   clearInterval(interval);
-    // };
+    const interval = setInterval(getBalance, 30000);
+    return () => {
+      clearInterval(interval);
+    };
   }, [connection, getBalance]);
 
   return (
@@ -89,9 +89,12 @@ const StakeComponent = () => {
         </div>
         <div className="pt-5 lg:pt-2 pb-10 flex flex-col md:flex-row md:justify-between">
           <div className="flex items-center justify-between pb-3 md:pb-0">
-            <p className="text-soft-blue font-poppins font-bold text-2xl md:pr-10">
+            <p className="text-soft-blue font-poppins font-bold text-2xl">
               BFI in Wallet
             </p>
+            <button className="btn mx-2 btn-circle btn-sm">
+              <IoReload onClick={getBalance} />
+            </button>
             <p className="text-primary font-poppins text-2xl">
               {currentSOLBalance.toLocaleString()}
             </p>
