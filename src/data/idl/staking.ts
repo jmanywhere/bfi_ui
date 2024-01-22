@@ -183,6 +183,11 @@ export type BfiStaking = {
           "isSigner": false
         },
         {
+          "name": "earlyFlag",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "userTokenAccount",
           "isMut": true,
           "isSigner": false
@@ -430,6 +435,37 @@ export type BfiStaking = {
           "type": "u32"
         }
       ]
+    },
+    {
+      "name": "setWaiveFee",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "status",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "earlyFlag",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "waiveStatus",
+          "type": "bool"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -457,6 +493,18 @@ export type BfiStaking = {
           {
             "name": "owner",
             "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "earlyFlag",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "waiveEarly",
+            "type": "bool"
           }
         ]
       }
@@ -745,6 +793,11 @@ export const IDL: BfiStaking = {
           "isSigner": false
         },
         {
+          "name": "earlyFlag",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "userTokenAccount",
           "isMut": true,
           "isSigner": false
@@ -992,6 +1045,37 @@ export const IDL: BfiStaking = {
           "type": "u32"
         }
       ]
+    },
+    {
+      "name": "setWaiveFee",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "status",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "earlyFlag",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "waiveStatus",
+          "type": "bool"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -1019,6 +1103,18 @@ export const IDL: BfiStaking = {
           {
             "name": "owner",
             "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "earlyFlag",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "waiveEarly",
+            "type": "bool"
           }
         ]
       }

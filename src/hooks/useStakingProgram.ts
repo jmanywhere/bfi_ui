@@ -246,6 +246,7 @@ export function usePoolExitActions(){
     const userTokenAccount = getAssociatedTokenAddressSync(tokenMintProgram, publicKey);
     const vaultAccount = PublicKey.findProgramAddressSync([Buffer.from('vault')], program.programId)[0]
     const statusAccount = PublicKey.findProgramAddressSync([Buffer.from('status')], program.programId)[0]
+    const earlyFlagAccount = PublicKey.findProgramAddressSync([Buffer.from('early')], program.programId)[0]
 
     const tx = await program.methods.withdraw(id).accounts({
       signer: publicKey,
@@ -255,6 +256,7 @@ export function usePoolExitActions(){
       tokenVault: vaultAccount,
       status: statusAccount,
       mint: tokenMintProgram,
+      earlyFlag: earlyFlagAccount,
     }).rpc()
 
     console.log({tx})
