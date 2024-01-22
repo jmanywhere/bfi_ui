@@ -24,17 +24,16 @@ export default function TokenStats() {
       </div>
       <div className="stats drop-shadow">
         <div className="stat bg-primary">
-          <div className="stat-desc">BFi</div>
+          <div className="stat-desc">TVL</div>
           <div className="stat-value text-white">
             {totalStaked
-              ? ((totalStaked / (tokenSupply || 1)) * 100).toFixed(1) + "%"
-              : // Intl.NumberFormat("en-US", {
-                //     notation: "compact",
-                //     maximumFractionDigits: 2,
-                //   }).format(totalStaked)
-                0}
+              ? Intl.NumberFormat("en-US", {
+                  notation: "compact",
+                  maximumFractionDigits: 2,
+                }).format(totalStaked * (price || 0))
+              : 0}
           </div>
-          <div className="stat-title text-accent">Total Staked</div>
+          <div className="stat-title text-accent">USD</div>
         </div>
       </div>
       <div className="stats drop-shadow">
