@@ -33,6 +33,7 @@ export function useGeneralData() {
   const program = useAtomValue(programAtom);
   const [tokenSupply, setTokenSupply] = useState<number | null>(null);
   const [totalStaked, setTotalStaked] = useState<number | null>(null);
+  const [price, setPrice] = useState<number | null>(null);
 
   const fetchGeneralData = useCallback( async () => {
     if(!program)
@@ -46,6 +47,18 @@ export function useGeneralData() {
     setTotalStaked(vaultBalance.value.uiAmount);
   },[program, setTokenSupply, setTotalStaked])
 
+  const fetchTokenPrice = useCallback( async () => {
+
+    const dexScreenerData = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${tokenMintProgram}`)
+      .then( (res) => res.json())
+      .catch( () => null);
+
+    if(!dexScreenerData)
+      return;
+    const price = dexScreenerData.pairs[0].priceUsd;
+    setPrice(price);
+  },[setPrice]);
+
   useEffect( () => {
     if(!tokenSupply)
       fetchGeneralData();
@@ -55,7 +68,15 @@ export function useGeneralData() {
 
   }, [fetchGeneralData, tokenSupply])
 
-  return {tokenSupply, totalStaked}
+  useEffect( () => {
+    if(!price)
+      fetchTokenPrice();
+
+      const interval = setInterval( fetchTokenPrice, 60000);
+      return () => clearInterval(interval);
+  },[fetchTokenPrice, price])
+
+  return {tokenSupply, totalStaked, price}
 }
 
 export function useFetchPoolData () {

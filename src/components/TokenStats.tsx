@@ -4,7 +4,7 @@ import useStakingProgram, { useGeneralData } from "@/hooks/useStakingProgram";
 
 export default function TokenStats() {
   useStakingProgram();
-  const { tokenSupply, totalStaked } = useGeneralData();
+  const { tokenSupply, totalStaked, price } = useGeneralData();
 
   return (
     <div className="justify-evenly flex flex-col sm:flex-row flex-wrap items-center pt-6 gap-4">
@@ -39,9 +39,9 @@ export default function TokenStats() {
       </div>
       <div className="stats drop-shadow">
         <div className="stat bg-primary">
-          <div className="stat-desc">BFi</div>
-          <div className="stat-value text-white">TBD</div>
-          <div className="stat-title text-accent">Price</div>
+          <div className="stat-desc">BFi Price</div>
+          <div className="stat-value text-white">{price || "TBD"}</div>
+          <div className="stat-title text-accent">USD</div>
         </div>
       </div>
     </div>
