@@ -132,6 +132,9 @@ const StakeComponent = () => {
               if (amount.lte(new BN(0))) return;
               console.log({ inputDays, amount });
               action(inputDays, amount);
+              setTimeout(() => {
+                getBalance();
+              }, 5000);
             }}
           >
             {loading ? <span className="loading loading-spinner" /> : "STAKE"}

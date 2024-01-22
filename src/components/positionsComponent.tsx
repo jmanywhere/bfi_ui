@@ -33,8 +33,9 @@ const PositionsComponent = () => {
         return null;
       const lockTime = poolInfo.lockTime.toNumber();
       const endTime = (userPoolInfo.startTime.toNumber() + lockTime) * 1000;
-      const diff = differenceInSeconds(endTime, dateCheck) / 1000;
-      const earned = (userPoolInfo.amount * poolInfo.basisPoints) / 100;
+      const diff = differenceInSeconds(endTime, dateCheck);
+      const earned = (userPoolInfo.amount * poolInfo.basisPoints) / 100 / 1e3;
+      const calculatedEarned = (earned * (lockTime - diff)) / lockTime;
       return (
         <tr
           key={`table_item_${index}`}
@@ -51,8 +52,9 @@ const PositionsComponent = () => {
           </td>
           <td>{(userPoolInfo.amount / 1e3).toLocaleString()}</td>
           <td>
-            {(
-              (diff < 0 ? earned : (earned * diff) / poolInfo.lockTime) / 1e3
+            {(diff < 0
+              ? earned
+              : Math.floor(calculatedEarned * 1000) / 1000
             ).toLocaleString()}
           </td>
           <td>{format(endTime, "yyyy-MM-dd HH:mm")}</td>
