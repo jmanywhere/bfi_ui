@@ -27,11 +27,12 @@ export default function TokenStats() {
           <div className="stat-desc">BFi</div>
           <div className="stat-value text-white">
             {totalStaked
-              ? Intl.NumberFormat("en-US", {
-                  notation: "compact",
-                  maximumFractionDigits: 2,
-                }).format(totalStaked)
-              : 0}
+              ? ((totalStaked / (tokenSupply || 1)) * 100).toFixed(1) + "%"
+              : // Intl.NumberFormat("en-US", {
+                //     notation: "compact",
+                //     maximumFractionDigits: 2,
+                //   }).format(totalStaked)
+                0}
           </div>
           <div className="stat-title text-accent">Total Staked</div>
         </div>
