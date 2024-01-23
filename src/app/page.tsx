@@ -3,6 +3,7 @@ import logo from "@/../public/bonkfi_logo.png";
 import sol_logo from "@/../public/solana icon.png";
 import Link from "next/link";
 import TokenStats from "@/components/TokenStats";
+import Leaderboard from "@/components/Leaderboard";
 export default function Home() {
   return (
     <main className="flex min-h-[calc(100vh-80px)] flex-col items-center justify-between py-24 px-2 xs:px-8 md:px-24 gap-6">
@@ -123,6 +124,9 @@ export default function Home() {
           Zero fees, engaging rewards, and a commitment to community -
           that&apos;s the BonkFi promise.
         </div>
+      </div>
+      <div>
+        <Leaderboard />
       </div>
     </main>
   );

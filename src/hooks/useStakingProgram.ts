@@ -1,7 +1,7 @@
 'use client';
 
 import { useSetAtom, useAtomValue, useAtom } from 'jotai'
-import { PoolDataType, PoolPositionDataType, offPools, poolFetchAtom, pools, programAtom, providerAtom } from "@/data/atoms";
+import { PoolDataType, PoolPositionDataType, offPools, poolFetchAtom, pools, programAtom, providerAtom, topPoolsAtom } from "@/data/atoms";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -96,6 +96,7 @@ export function useFetchPoolData () {
   const [pd,setPoolData] = useAtom(pools);
   const setOffPools = useSetAtom(offPools)
   const setRefetch = useSetAtom(poolFetchAtom)
+  const setTopPools = useSetAtom(topPoolsAtom)
   const fetchPoolData = useCallback( async () => {
     if(!program)
       return;
@@ -149,9 +150,9 @@ export function useFetchPoolData () {
     })
     setPoolData(poolData)
     setOffPools(offPositions)
-
+    setTopPools(allPositions.sort( (a, b) => parseInt((b.account.amount - a.account.amount).toString())))
     
-  },[program, setPoolData, publicKey, setOffPools])
+  },[program, setPoolData, publicKey, setOffPools, setTopPools])
   
   useEffect( () => {
     if(!pd.length)
