@@ -68,7 +68,7 @@ export default function Home() {
           </h3>
           <p className="font-poppins text-black whitespace-pre-wrap">
             <strong className="text-base">
-              Rocket Ride Tier (2-Day Lock):
+              Rocket Ride Tier (2-Day Stake):
             </strong>
             {"\n"}
             Blast off with a 25% reward! For example, staking 100,000 BFi gets
@@ -76,14 +76,14 @@ export default function Home() {
             {"\n"}
             {"\n"}
             <strong className="text-base">
-              HODL Harbor Tier (8-Day Lock):
+              HODL Harbor Tier (8-Day Stake):
             </strong>
             {"\n"}
             Anchor down for a 125% reward, a safe harbor for the HODLers.
             {"\n"}
             {"\n"}
             <strong className="text-base">
-              Moon Mission Tier (16-Day Lock):
+              Moon Mission Tier (16-Day Stake):
             </strong>
             {"\n"}Embark on a grand journey with a 275% reward, aiming for the
             stars.
@@ -94,9 +94,6 @@ export default function Home() {
           <p className="font-poppins text-black whitespace-pre-wrap">
             <strong>Mint-on-Claim Rewards:</strong> No max supply to limit your
             gains.
-            {"\n"}
-            <strong>Emergency Unstake:</strong> A nominal 5% fee for those
-            unforeseen moments.
           </p>
           <div className="flex flex-row items-center pt-4 justify-center">
             <Link
