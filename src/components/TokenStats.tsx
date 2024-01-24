@@ -10,16 +10,15 @@ export default function TokenStats() {
     <div className="justify-evenly flex flex-col sm:flex-row flex-wrap items-center pt-6 gap-4">
       <div className="stats drop-shadow">
         <div className="stat bg-primary">
-          <div className="stat-desc">BFi</div>
+          <div className="stat-desc">Staked BFi</div>
           <div className="stat-value text-white">
-            {tokenSupply
-              ? Intl.NumberFormat("en-US", {
-                  notation: "compact",
+            {tokenSupply && totalStaked
+              ? ((totalStaked * 100) / tokenSupply).toLocaleString(undefined, {
                   maximumFractionDigits: 2,
-                }).format(tokenSupply)
+                }) + "%"
               : 0}
           </div>
-          <div className="stat-title text-accent">Total Supply</div>
+          <div className="stat-title text-accent">Supply %</div>
         </div>
       </div>
       <div className="stats drop-shadow">
